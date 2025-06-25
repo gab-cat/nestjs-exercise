@@ -29,6 +29,7 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, documentFactory);
 
   await app.listen(process.env.PORT ?? 3000);
+  console.log(`Version: ${process.env.npm_package_version}`);
   console.log(
     `Server is running on port http://localhost:${process.env.PORT ?? 3000}`,
   );
