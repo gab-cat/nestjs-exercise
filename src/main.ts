@@ -21,8 +21,8 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
 
   const config = new DocumentBuilder()
-    .setTitle('Bookstore API')
-    .setDescription('API for the bookstore')
+    .setTitle('NestJS Exercise')
+    .setDescription('A simple NestJS exercise API')
     .setVersion('1.0')
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);
