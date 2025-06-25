@@ -1,0 +1,11 @@
+services:
+  nestjs-app:
+    image: gabcat/nestjs-exercise:latest
+    container_name: nestjs-app
+    restart: unless-stopped
+    command: ['bun', '--bun', 'dist/main.js']
+    ports:
+      - '3000:3000'
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
