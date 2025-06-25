@@ -41,4 +41,5 @@ jobs:
 
       - name: Notify webhook
         run: |
-          curl https://clf.merchtrack.tech/api/v1/deploy?uuid=fcwg48k8sco4kk4cwk48kgck&force=false --header "Authorization: Bearer ${{ secrets.CLF_TOKEN }}"
+          curl https://clf.merchtrack.tech/api/v1/deploy?uuid=fcwg48k8sco4kk4cwk48kgck&force=false \
+            --header 'Authorization: Bearer ${{ secrets.CLF_TOKEN }}'
