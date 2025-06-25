@@ -31,10 +31,14 @@ jobs:
         uses: docker/setup-buildx-action@v3
 
       - name: Build client image and push to Docker Hub
-        uses: useblacksmith/build-push-action@v1
+        uses: docker/build-push-action@v4
         with:
           context: .
           file: ./Dockerfile
           tags: |
             gabcat/nestjs-exercise:latest
           push: true
+
+      - name: Notify webhook
+        run: |
+          curl https://clf.merchtrack.tech/api/v1/deploy?uuid=fcwg48k8sco4kk4cwk48kgck&force=false --header "Authorization: Bearer ${{ secrets.CLF_TOKEN }}"
