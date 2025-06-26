@@ -2,52 +2,52 @@
 
 This is a **Bookstore API** built with NestJS featuring a many-to-many relationship between Authors and Books.
 
-## Features
+## Key Features
 
-- **Books Management**: Create, read, update, and delete books using slug-based URLs
-- **Authors Management**: Manage authors using email-based identification
-- **Many-to-Many Relationships**: Authors can have multiple books, and books can have multiple authors
-- **Swagger Documentation**: Interactive API documentation available at `/api`
-- **Input Validation**: Comprehensive validation using class-validator
-- **Error Handling**: Global exception filtering for consistent error responses
+- **Slug-based Book URLs**: Books use SEO-friendly slugs generated from titles
+- **Email-based Author URLs**: Authors are identified by their email addresses
+- **Automatic Slug Generation**: Book slugs are automatically created and kept unique
+- **Relationship Management**: Bidirectional relationship updates between authors and books
+- **Comprehensive Validation**: All inputs are validated using decorators
+- **Swagger Integration**: Full API documentation available at `/api`
 
 ## API Endpoints
 
 ### 📚 Books API
 
-| Method   | Endpoint        | Description         | Request Body                    | Parameters                                   |
-| -------- | --------------- | ------------------- | ------------------------------- | -------------------------------------------- |
-| `GET`    | `/books`        | Get all books       | -                               | -                                            |
-| `POST`   | `/books`        | Create a new book   | [CreateBookDto](#createbookdto) | -                                            |
-| `GET`    | `/books/{slug}` | Get book by slug    | -                               | `slug`: Book slug (e.g., `the-great-gatsby`) |
-| `PATCH`  | `/books/{slug}` | Update book by slug | [UpdateBookDto](#updatebookdto) | `slug`: Book slug                            |
-| `DELETE` | `/books/{slug}` | Delete book by slug | -                               | `slug`: Book slug                            |
+| Method   | Endpoint        | Description         | Request Body                                                  | Parameters                                   |
+| -------- | --------------- | ------------------- | ------------------------------------------------------------- | -------------------------------------------- |
+| `GET`    | `/books`        | Get all books       | -                                                             | -                                            |
+| `POST`   | `/books`        | Create a new book   | `{ title, description, author_email, image_url, price }`      | -                                            |
+| `GET`    | `/books/{slug}` | Get book by slug    | -                                                             | `slug`: Book slug (e.g., `the-great-gatsby`) |
+| `PATCH`  | `/books/{slug}` | Update book by slug | `{ title?, description?, author_email?, image_url?, price? }` | `slug`: Book slug                            |
+| `DELETE` | `/books/{slug}` | Delete book by slug | -                                                             | `slug`: Book slug                            |
 
 ### 👥 Book-Author Relationships
 
-| Method   | Endpoint                        | Description               | Request Body                              | Parameters                                 |
-| -------- | ------------------------------- | ------------------------- | ----------------------------------------- | ------------------------------------------ |
-| `GET`    | `/books/{slug}/authors`         | Get all authors of a book | -                                         | `slug`: Book slug                          |
-| `POST`   | `/books/{slug}/authors`         | Add author to book        | [AddAuthorToBookDto](#addauthortobookdto) | `slug`: Book slug                          |
-| `DELETE` | `/books/{slug}/authors/{email}` | Remove author from book   | -                                         | `slug`: Book slug<br>`email`: Author email |
+| Method   | Endpoint                        | Description               | Request Body      | Parameters                                 |
+| -------- | ------------------------------- | ------------------------- | ----------------- | ------------------------------------------ |
+| `GET`    | `/books/{slug}/authors`         | Get all authors of a book | -                 | `slug`: Book slug                          |
+| `POST`   | `/books/{slug}/authors`         | Add author to book        | `{ authorEmail }` | `slug`: Book slug                          |
+| `DELETE` | `/books/{slug}/authors/{email}` | Remove author from book   | -                 | `slug`: Book slug<br>`email`: Author email |
 
 ### 👤 Authors API
 
-| Method   | Endpoint           | Description            | Request Body                        | Parameters                          |
-| -------- | ------------------ | ---------------------- | ----------------------------------- | ----------------------------------- |
-| `GET`    | `/authors`         | Get all authors        | -                                   | -                                   |
-| `POST`   | `/authors`         | Create a new author    | [CreateAuthorDto](#createauthordto) | -                                   |
-| `GET`    | `/authors/{email}` | Get author by email    | -                                   | `email`: Author email (URL encoded) |
-| `PATCH`  | `/authors/{email}` | Update author by email | [UpdateAuthorDto](#updateauthordto) | `email`: Author email (URL encoded) |
-| `DELETE` | `/authors/{email}` | Delete author by email | -                                   | `email`: Author email (URL encoded) |
+| Method   | Endpoint           | Description            | Request Body                                            | Parameters                          |
+| -------- | ------------------ | ---------------------- | ------------------------------------------------------- | ----------------------------------- |
+| `GET`    | `/authors`         | Get all authors        | -                                                       | -                                   |
+| `POST`   | `/authors`         | Create a new author    | `{ first_name, last_name, email, bio, image_url }`      | -                                   |
+| `GET`    | `/authors/{email}` | Get author by email    | -                                                       | `email`: Author email (URL encoded) |
+| `PATCH`  | `/authors/{email}` | Update author by email | `{ first_name?, last_name?, email?, bio?, image_url? }` | `email`: Author email (URL encoded) |
+| `DELETE` | `/authors/{email}` | Delete author by email | -                                                       | `email`: Author email (URL encoded) |
 
 ### 📖 Author-Book Relationships
 
-| Method   | Endpoint                        | Description             | Request Body                              | Parameters                                               |
-| -------- | ------------------------------- | ----------------------- | ----------------------------------------- | -------------------------------------------------------- |
-| `GET`    | `/authors/{email}/books`        | Get all books by author | -                                         | `email`: Author email (URL encoded)                      |
-| `POST`   | `/authors/{email}/books`        | Add book to author      | [AddBookToAuthorDto](#addbooktoauthordto) | `email`: Author email (URL encoded)                      |
-| `DELETE` | `/authors/{email}/books/{slug}` | Remove book from author | -                                         | `email`: Author email (URL encoded)<br>`slug`: Book slug |
+| Method   | Endpoint                        | Description             | Request Body   | Parameters                                               |
+| -------- | ------------------------------- | ----------------------- | -------------- | -------------------------------------------------------- |
+| `GET`    | `/authors/{email}/books`        | Get all books by author | -              | `email`: Author email (URL encoded)                      |
+| `POST`   | `/authors/{email}/books`        | Add book to author      | `{ bookSlug }` | `email`: Author email (URL encoded)                      |
+| `DELETE` | `/authors/{email}/books/{slug}` | Remove book from author | -              | `email`: Author email (URL encoded)<br>`slug`: Book slug |
 
 ## Data Transfer Objects (DTOs)
 
@@ -128,15 +128,6 @@ All fields from `CreateAuthorDto` are optional for updates.
   "books": ["book-uuid-1", "book-uuid-2"]
 }
 ```
-
-## Key Features
-
-- **Slug-based Book URLs**: Books use SEO-friendly slugs generated from titles
-- **Email-based Author URLs**: Authors are identified by their email addresses
-- **Automatic Slug Generation**: Book slugs are automatically created and kept unique
-- **Relationship Management**: Bidirectional relationship updates between authors and books
-- **Comprehensive Validation**: All inputs are validated using decorators
-- **Swagger Integration**: Full API documentation available at `/api`
 
 ## Project setup
 

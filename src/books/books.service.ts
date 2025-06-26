@@ -8,32 +8,14 @@ import { Book } from 'src/books/entities/book.entity';
 
 @Injectable()
 export class BooksService {
-  private books: Book[] = [];
-  private authors: Author[] = [];
-  constructor(private readonly databaseService: DatabaseService) {
-    this.books = this.databaseService.books;
-    this.authors = this.databaseService.authors;
+  constructor(private readonly databaseService: DatabaseService) {}
+
+  get books(): Book[] {
+    return this.databaseService.books;
   }
 
-  // helper function to generate slug from title
-  private generateSlug(title: string): string {
-    return title
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/(^-|-$)/g, '');
-  }
-
-  // helper function to ensure unique slug
-  private ensureUniqueSlug(baseSlug: string): string {
-    let slug = baseSlug;
-    let counter = 1;
-
-    while (this.databaseService.books.some((book) => book.slug === slug)) {
-      slug = `${baseSlug}-${counter}`;
-      counter++;
-    }
-
-    return slug;
+  get authors(): Author[] {
+    return this.databaseService.authors;
   }
 
   create(createBookDto: CreateBookDto) {
@@ -179,5 +161,26 @@ export class BooksService {
       book.authors?.includes(author.email),
     );
     return bookAuthors;
+  }
+
+  // helper function to generate slug from title
+  private generateSlug(title: string): string {
+    return title
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/(^-|-$)/g, '');
+  }
+
+  // helper function to ensure unique slug
+  private ensureUniqueSlug(baseSlug: string): string {
+    let slug = baseSlug;
+    let counter = 1;
+
+    while (this.databaseService.books.some((book) => book.slug === slug)) {
+      slug = `${baseSlug}-${counter}`;
+      counter++;
+    }
+
+    return slug;
   }
 }

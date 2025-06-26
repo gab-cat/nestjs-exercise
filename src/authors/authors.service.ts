@@ -12,12 +12,14 @@ import { Book } from 'src/books/entities/book.entity';
 
 @Injectable()
 export class AuthorsService {
-  private authors: Author[] = [];
-  private books: Book[] = [];
+  constructor(private readonly databaseService: DatabaseService) {}
 
-  constructor(private readonly databaseService: DatabaseService) {
-    this.authors = this.databaseService.authors;
-    this.books = this.databaseService.books;
+  get authors(): Author[] {
+    return this.databaseService.authors;
+  }
+
+  get books(): Book[] {
+    return this.databaseService.books;
   }
 
   create(createAuthorDto: CreateAuthorDto) {
